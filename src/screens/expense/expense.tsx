@@ -6,7 +6,7 @@ import { styleExpense } from "./style";
 
 export const Expense = () => {
   const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(0);
   const addItem = useExpenseStore((state) => state.addItem);
 
   const handleAddItem = () => {
@@ -18,11 +18,11 @@ export const Expense = () => {
     addItem({
       id: Date.now().toString(),
       name,
-      price: parseFloat(price),
+      price: price,
     });
 
     setName("");
-    setPrice("");
+    setPrice(0);
     router.navigate("/");
   };
 
@@ -44,8 +44,10 @@ export const Expense = () => {
       />
       <TextInput
         placeholder="Insira o valor"
-        value={price}
-        onChangeText={setPrice}
+        value={price.toString()}
+        onChangeText={(text) =>
+          Number(text) ? setPrice(Number(text)) : setPrice(0)
+        }
         keyboardType="numeric"
         style={styleExpense.input}
       />
